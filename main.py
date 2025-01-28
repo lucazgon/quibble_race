@@ -3,6 +3,7 @@ from player import Player
 from racer import Racer
 import pdb
 import random
+import time
 
 # maybe menu / input handler should be separate
 # display menu, input needs: 0-20
@@ -52,7 +53,7 @@ def main():
     while True:
         #print(f"season: {cur_season}")
         
-        print("How many human players? (max: 4)")
+        print(f"How many human players? (max: {max_players})")
         num_players = int(input())
 
         for i in range (0,num_players):
@@ -75,6 +76,8 @@ def main():
                 racer_current_list.append(racer_list[random.randint(0,len(racer_list)-1)].name)
 
             # pre race betting
+            print("\n\n")
+            print('#### Betting Phase ####')
             print(f"round: {cur_round} time to bet!")
             for player in player_list:
                 print(f"{player.name}'s turn!")
@@ -82,6 +85,7 @@ def main():
                 if player.is_player == True:
                     player.bet = input_handler(racer_current_list)
                 else:
+                    time.sleep(1)
                     player.bet = random.randint(0, len(racer_current_list)-1)
 
                 player.money -= 50
@@ -91,10 +95,14 @@ def main():
             '''
             eventually racers will have stats / win losses and things
             '''
+            print("\n")
+            print('#### Racing Phase ####')
             curr_winner = racer_current_list[random.randint(0,len(racer_current_list)-1)]
-            print(f"{curr_winner.name} wins!")
+            print(f"{curr_winner} wins!")
             
             # post race
+            print('\n')
+            print('#### Post Race Phase ####')
             for player in player_list:
                 if player.bet == curr_winner:
                     round_winners.append(player)
@@ -108,7 +116,7 @@ def main():
                 print("no winners :'C")
             
             
-
+            time.sleep(2)
                     # divide the pot among players who won
 
             cur_round += 1
