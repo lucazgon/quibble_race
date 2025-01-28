@@ -4,6 +4,9 @@ from racer import Racer
 import pdb
 import random
 
+# maybe menu / input handler should be separate
+# display menu, input needs: 0-20
+# 
 def input_handler(list):
     # print a menu
     for obj in list:
@@ -14,58 +17,105 @@ def input_handler(list):
         user_input = int(input())
 
         # print(type(user_input))
+        if user_input == "q":
+            break
+            pass
         if user_input >= 0 and user_input <= len(list):
             active = False
         else:
-            print(f"input, not accepted. expecting: {expected_type}")
+            print(f"input, not accepted. expecting: a number between 0 - {len(list)-1}")
             
         
-    return user_input
+    return list[user_input]
+
+
 
 # main
 def main():
 
+    #
     racer_list = []
     racer_current_list = []
 
     player_list = []
+    num_players_list =[1,2,3,4]
     num_players = 1
+    max_players = 4
     num_racers = 6
+    num_rounds = 6
+    cur_round = 0
+    cur_season = 0
 
-    print ("welcome to quibble race!")
-    print("how many players?")
-    num_players = input_handler("str")
-    
-    
-    print(num_players)
-    print('is that correct? y/n')
-    if input() != "y":
-        # go back to is that correct?
-        pass
+    # first time
+    print ("### Welcome to Quibble Race! ###")
 
-    player_list.append(Player(True))
-    for i in range (0,len(num_players)):
-        #pdb.set_trace()
-        player_list.append(Player(False))
+    while True:
+        #print(f"season: {cur_season}")
+        
+        print("How many human players? (max: 4)")
+        num_players = int(input())
 
-    for i in range (0,num_racers):
-        racer_list.append(Racer())
+        for i in range (0,num_players):
+            player_list.append(Player(True))
+        num_comp_players = max_players - num_players
+        for i in range (0,num_comp_players):
+            player_list.append(Player(False))
 
-    #for player in player_list:
-    print("place bets on a racer!")
-    # make random list of racers
-    for i in range(0,2):
-        racer_current_list.append(racer_list[random.randint(0,len(racer_list))])
-    #let each player pick one
-    for player in player_list:
-        print(player.name)
-        print(racer_current_list)
-        player_input = input('which quib?')
-        print(racer_current_list[int(player_input)])
+        for i in range (0,num_racers):
+            racer_list.append(Racer())
+        
+        # primary game loop
+        while cur_round < num_rounds:
+            round_winners = []
+            racer_current_list = []
+            pot = 0
 
-    print(" race 1 starting / results!")
-    print(racer_current_list[random.randint(0,len(racer_list)-1)])
+            # grab random racers from list
+            for i in range(0,3):
+                racer_current_list.append(racer_list[random.randint(0,len(racer_list)-1)].name)
 
+            # pre race betting
+            print(f"round: {cur_round} time to bet!")
+            for player in player_list:
+                print(f"{player.name}'s turn!")
+                print("place bets on a racer!")
+                if player.is_player == True:
+                    player.bet = input_handler(racer_current_list)
+                else:
+                    player.bet = random.randint(0, len(racer_current_list)-1)
+
+                player.money -= 50
+                pot += 50
+            
+            # race
+            '''
+            eventually racers will have stats / win losses and things
+            '''
+            curr_winner = racer_current_list[random.randint(0,len(racer_current_list)-1)]
+            print(f"{curr_winner.name} wins!")
+            
+            # post race
+            for player in player_list:
+                if player.bet == curr_winner:
+                    round_winners.append(player)
+            
+            if len(round_winners) > 0:
+                winnings = pot / len(round_winners)
+                for player in round_winners:
+                    player.money += winnings
+                    print(f'{player.name} won {winnings} money!')
+            else:
+                print("no winners :'C")
+            
+            
+
+                    # divide the pot among players who won
+
+            cur_round += 1
+
+        print('betting season over!, play again w/ same settings or different?')
+        # what things need to change / remain the same
+        # name of player, which ones are computer
 
 
 if __name__ == "__main__":
