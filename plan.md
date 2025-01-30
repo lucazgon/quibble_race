@@ -22,3 +22,23 @@
 - main
 - racer
 - player
+
+## notes
+- bugs suck man, they suck so bad. Here's what I'm thinking:
+- sometimes you need to make bad code just to see how everything works
+- THEN you look for all the pieces that have been repeated
+- THEN you chop up pieces of the code to make sure you repeat as many actions as few times as possible
+
+## bugs
+- winnings doesn't work
+- race render sometimes skips a row
+- you can bet more money than you have
+- racers maintain their position on the track
+- no input validation on bet amount
+- sometimes the funds become float
+
+## planned features
+- ai / expected value calculations
+- runner history, stats, acceleration
+- high scores / player stats / saves
+- racetracks w/ random obstacles

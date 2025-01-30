@@ -1,6 +1,7 @@
 # import
 from player import Player
 from racer import Racer
+from race_track import RaceTrack
 from menu import menu, input_validation
 import pdb
 import random
@@ -16,7 +17,7 @@ def main():
     num_players = 1
     max_players = 4
     num_racers = 6
-    num_rounds = 6
+    num_rounds = 1
     cur_round = 0
     cur_season = 0
     winnings = 0
@@ -25,7 +26,7 @@ def main():
     print ("### Welcome to Quibble Race! ###")
 
     while True:
-        #print(f"season: {cur_season}")
+        print(f"Season: {cur_season}")
         
         print(f"How many human players? (max: {max_players})")
         num_players = menu(num_players_list)
@@ -36,6 +37,7 @@ def main():
         for i in range (0,num_comp_players):
             player_list.append(Player(False))
 
+        # generate racers
         for i in range (0,num_racers):
             racer_list.append(Racer())
         
@@ -76,14 +78,18 @@ def main():
             eventually racers will have stats / win losses and things
             '''
             print('\n#### Racing Phase ####')
-            curr_winner = racer_current_list[random.randint(0,len(racer_current_list)-1)]
-            print(f"{curr_winner.name} wins!")
+            #curr_winner = racer_current_list[random.randint(0,len(racer_current_list)-1)]
+            newRace = RaceTrack(racer_current_list)
+            winners = newRace.run()
             
-            # post race
-            print('\n#### Post Race Phase ####')
-            for player in player_list:
-                if player.racer_bet == curr_winner:
-                    round_winners.append(player)
+            for winner in winners:
+                print(f"{winner.name} wins!")
+            
+                # post race
+                print('\n#### Post Race Phase ####')
+                for player in player_list:
+                    if player.racer_bet == winner:
+                        round_winners.append(player)
             
             if len(round_winners) > 0:
                 winnings = pot / len(round_winners)
