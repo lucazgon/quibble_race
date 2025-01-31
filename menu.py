@@ -1,4 +1,16 @@
 def menu(list):
+
+    '''
+    |---player--|
+    |   -racers
+            -a 2:1
+            -b 1:1
+            -c 3:1 *        |           
+    |   -bet amount        |
+    |-----------|
+    '''
+
+
     # print options to screen
     if len(list) <= 0:
         raise Exception("Menu needs to have at least 1 item")

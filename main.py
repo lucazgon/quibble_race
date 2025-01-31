@@ -7,6 +7,11 @@ import pdb
 import random
 import time
 
+def random_racers(racer_list):
+    for i in range(0,3):
+                racer_list.remove(racer_list[random.randint(0,len(racer_list)-1)])
+    return racer_list
+
 # main
 def main():
 
@@ -40,6 +45,13 @@ def main():
         # generate racers
         for i in range (0,num_racers):
             racer_list.append(Racer())
+
+        # generate history. which i think means I need to split the race rendering and the race logic :/
+        # odds calc. 1:1 2:1 4:1
+        for i in range(0,10):
+            race = RaceTrack(racer_list)
+            race.render = False
+            race.run()
         
         # primary game loop
         while cur_round < num_rounds:

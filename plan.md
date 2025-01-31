@@ -42,3 +42,4 @@
 - runner history, stats, acceleration
 - high scores / player stats / saves
 - racetracks w/ random obstacles
+- a more robust menu system that allows you to go do more things rather than just one thing in order (pick racer, choose bet etc)
